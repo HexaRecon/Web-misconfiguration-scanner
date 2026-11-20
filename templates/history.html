@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Scan History · LocalScan</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body>
+  <aside class="sidebar"><a class="brand" href="/">Local<span>Scan</span></a><nav><a href="/">Overview</a><a class="active" href="/history">Scan History</a></nav><div class="scope-note"><span class="pulse"></span> Loopback targets only</div></aside>
+  <main class="main-content">
+    <header class="topbar"><div><p class="eyebrow">ASSESSMENT ARCHIVE</p><h1>Scan history</h1></div><a class="button secondary" href="/">← Dashboard</a></header>
+    <section class="card history-card"><div class="section-heading"><div><p class="eyebrow">LOCAL DATABASE</p><h2>All recorded scans</h2></div></div><div class="table-wrap"><table><thead><tr><th>Target</th><th>Status</th><th>Findings</th><th>Started</th><th>Report</th></tr></thead><tbody id="scan-rows"><tr><td class="muted" colspan="5">Loading scan history…</td></tr></tbody></table></div></section>
+    <section class="card"><p class="eyebrow">COMPARE</p><h2>Scan comparison</h2><p class="muted">Use the Compare link in a report to compare a scan with an earlier scan of the same local target.</p><div id="comparison" class="comparison hidden"></div></section>
+    <footer>LocalScan · History is stored in the local SQLite database.</footer>
+  </main>
+  <script src="{{ url_for('static', filename='js/history.js') }}" defer></script>
+</body>
+</html>

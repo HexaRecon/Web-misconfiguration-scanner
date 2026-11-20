@@ -1,0 +1,20 @@
+id: local-safe-missing-nosniff
+
+info:
+  name: Missing X-Content-Type-Options Header
+  author: Local Misconfiguration Scanner
+  severity: low
+  description: The target response does not set X-Content-Type-Options to nosniff.
+  remediation: "Configure X-Content-Type-Options: nosniff for applicable responses."
+  tags: misconfig,headers,safe
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+    max-redirects: 0
+    matchers:
+      - type: dsl
+        dsl:
+          - "!contains(tolower(all_headers), 'x-content-type-options: nosniff')"
+        condition: and

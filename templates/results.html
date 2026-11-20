@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Scan #{{ scan.id }} · LocalScan</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
+<body>
+  <aside class="sidebar"><a class="brand" href="/">Local<span>Scan</span></a><nav><a href="/">Overview</a><a href="/history">Scan History</a></nav><div class="scope-note"><span class="pulse"></span> Loopback targets only</div></aside>
+  <main class="main-content">
+    <header class="topbar"><div><p class="eyebrow">DETAILED REPORT · SCAN #{{ scan.id }}</p><h1>Security assessment</h1></div><a class="button secondary" href="/">← Dashboard</a></header>
+    <section class="card report-summary"><p class="eyebrow">TARGET</p><h2>{{ scan.target_url }}</h2><p>Status: <span class="status-pill">{{ scan.status }}</span> · Started {{ scan.started_at }}</p>
+      <div class="report-links"><a class="button secondary" href="/api/scans/{{ scan.id }}/reports/json">JSON</a><a class="button secondary" href="/api/scans/{{ scan.id }}/reports/html">HTML</a><a class="button secondary" href="/api/scans/{{ scan.id }}/reports/pdf">PDF</a>
+      {% if scan.id > 1 %}<label class="compare-select">Compare with <select id="previous-scan"><option value="">Choose earlier scan</option></select></label><button class="button secondary" id="compare-button">Compare</button>{% endif %}</div>
+      <div id="comparison" class="comparison hidden"></div>
+    </section>
+    {% if scan.error %}<section class="error-card"><b>Scan notes</b><pre>{{ scan.error }}</pre></section>{% endif %}
+    <section class="section-heading report-heading"><div><p class="eyebrow">VERIFIED OBSERVATIONS</p><h2>Findings ({{ scan.findings|length }})</h2></div></section>
+    {% if scan.findings %}
+      {% for finding in scan.findings %}
+      <article class="card finding-card">
+        <div class="finding-top"><div><span class="severity severity-{{ finding.severity|lower }}">{{ finding.severity }}</span><h3>{{ finding.title }}</h3></div><span class="http-code">{% if finding.http_status %}HTTP {{ finding.http_status }}{% else %}HTTP —{% endif %}</span></div>
+        <dl><dt>Target</dt><dd><code>{{ finding.target_url }}</code></dd><dt>Detection method</dt><dd>{{ finding.detection_method }}</dd><dt>Evidence</dt><dd>{{ finding.evidence }}</dd><dt>Description</dt><dd>{{ finding.description }}</dd><dt>Remediation</dt><dd>{{ finding.remediation }}</dd></dl>
+      </article>
+      {% endfor %}
+    {% else %}
+      <section class="card empty-state"><div class="empty-symbol">✓</div><p>No findings recorded</p><small>This is not proof that the target is free of security issues.</small></section>
+    {% endif %}
+    <footer>Review observations in context before making changes.</footer>
+  </main>
+  <script>window.SCAN_ID = {{ scan.id|tojson }}; window.SCAN_TARGET = {{ scan.target_url|tojson }};</script><script src="{{ url_for('static', filename='js/history.js') }}" defer></script>
+</body>
+</html>

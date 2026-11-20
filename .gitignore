@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# SQLite database
+*.sqlite3
+database/*.sqlite3
+
+# Generated scan reports (retain .gitkeep)
+reports/scan-*
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
